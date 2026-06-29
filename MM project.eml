@@ -1,0 +1,133 @@
+MM project (Guessing a letter)
+
+.model small
+.stack 100h
+.data
+    letters db 'A', 'G', 'M', 'D', 'S'
+    userGuess db ?
+    msg1 db 'Guess a letter (you have 2 chances): $'
+    msg2 db 10,13, 'Guess a letter again (last chance): $'
+    msgWin db 10,13, 'Congratulations! You guessed the letter!$'
+    msgLose db 10,13, 'Sorry, you have no more chances. Valid letters were:
+A, G, M, D, S.$'
+
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+
+    mov dx,offset msg1
+    mov ah,9
+    int 21h
+
+
+    mov ah,1
+    int 21h
+    sub al,20h
+    mov userGuess,al
+
+
+    mov cx,5
+    lea si,letters
+    mov al, userGuess
+
+check_loop1:
+    cmp al, [si]
+    je valid_guess1
+    inc si
+    loop check_loop1
+
+
+    jmp second_chance
+
+valid_guess1:
+    mov dx,offset msgWin
+    mov ah,9
+    int 21h
+    jmp exit
+
+second_chance:
+    mov dx,offset msg2
+    mov ah,9
+    int 21h
+
+
+    mov ah,1
+    int 21h
+    sub al,20h
+    mov userGuess,al
+
+
+    mov cx,5
+    lea si, letters
+    mov al, userGuess
+
+check_loop2:
+    cmp al, [si]
+    je valid_guess2
+    inc si
+    loop check_loop2
+
+
+    jmp lose
+
+valid_guess2:
+    mov dx,offset msgWin
+    mov ah,9
+    int 21h
+    jmp exit
+
+lose:
+
+    mov dx,offset msgLose
+    mov ah,9
+    int 21h
+    jmp exit
+
+exit:
+    mov ax,4ch
+    int 21h
+end main
+
+--000000000000de6d7f062927f593
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBkaXI9Imx0ciI+Lm1vZGVsIHNtYWxsPGJyPi5zdGFjayAxMDBoPGJyPi5kYXRhPGJyPsKg
+IMKgIGxldHRlcnMgZGIgJiMzOTtBJiMzOTssICYjMzk7RyYjMzk7LCAmIzM5O00mIzM5OywgJiMz
+OTtEJiMzOTssICYjMzk7UyYjMzk7IMKgPGJyPsKgIMKgIHVzZXJHdWVzcyBkYiA/IMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgPGJyPsKgIMKgIG1zZzEgZGIgJiMzOTtHdWVzcyBhIGxl
+dHRlciAoeW91IGhhdmUgMiBjaGFuY2VzKTogJCYjMzk7PGJyPsKgIMKgIG1zZzIgZGIgMTAsMTMs
+ICYjMzk7R3Vlc3MgYSBsZXR0ZXIgYWdhaW4gKGxhc3QgY2hhbmNlKTogJCYjMzk7PGJyPsKgIMKg
+IG1zZ1dpbiBkYiAxMCwxMywgJiMzOTtDb25ncmF0dWxhdGlvbnMhIFlvdSBndWVzc2VkIHRoZSBs
+ZXR0ZXIhJCYjMzk7PGJyPsKgIMKgIG1zZ0xvc2UgZGIgMTAsMTMsICYjMzk7U29ycnksIHlvdSBo
+YXZlIG5vIG1vcmUgY2hhbmNlcy4gVmFsaWQgbGV0dGVycyB3ZXJlOiBBLCBHLCBNLCBELCBTLiQm
+IzM5Ozxicj7CoCDCoCA8YnI+wqAgwqAgPGJyPi5jb2RlPGJyPm1haW46PGJyPsKgIMKgIG1vdiBh
+eCwgQGRhdGE8YnI+wqAgwqAgbW92IGRzLCBheDxicj48YnI+wqAgwqAgPGJyPsKgIMKgIG1vdiBk
+eCxvZmZzZXQgbXNnMTxicj7CoCDCoCBtb3YgYWgsOTxicj7CoCDCoCBpbnQgMjFoPGJyPjxicj7C
+oCDCoCA8YnI+wqAgwqAgbW92IGFoLDE8YnI+wqAgwqAgaW50IDIxaDxicj7CoCDCoCBzdWIgYWws
+MjBoIMKgIMKgIMKgIMKgIDxicj7CoCDCoCBtb3YgdXNlckd1ZXNzLGFsPGJyPjxicj7CoCDCoCA8
+YnI+wqAgwqAgbW92IGN4LDUgwqAgwqAgwqAgwqAgwqAgwqA8YnI+wqAgwqAgbGVhIHNpLGxldHRl
+cnMgwqAgwqAgPGJyPsKgIMKgIG1vdiBhbCwgdXNlckd1ZXNzIMKgIMKgPGJyPjxicj5jaGVja19s
+b29wMTo8YnI+wqAgwqAgY21wIGFsLCBbc2ldIMKgIMKgIMKgIMKgPGJyPsKgIMKgIGplIHZhbGlk
+X2d1ZXNzMSDCoCDCoCA8YnI+wqAgwqAgaW5jIHNpIMKgIMKgIMKgIMKgIMKgIMKgIMKgPGJyPsKg
+IMKgIGxvb3AgY2hlY2tfbG9vcDEgwqAgwqAgPGJyPjxicj7CoCDCoCA8YnI+wqAgwqAgam1wIHNl
+Y29uZF9jaGFuY2U8YnI+PGJyPnZhbGlkX2d1ZXNzMTo8YnI+wqAgwqAgbW92IGR4LG9mZnNldCBt
+c2dXaW48YnI+wqAgwqAgbW92IGFoLDk8YnI+wqAgwqAgaW50IDIxaDxicj7CoCDCoCBqbXAgZXhp
+dDxicj48YnI+c2Vjb25kX2NoYW5jZTo8YnI+wqAgwqAgbW92IGR4LG9mZnNldCBtc2cyPGJyPsKg
+IMKgIG1vdiBhaCw5PGJyPsKgIMKgIGludCAyMWg8YnI+PGJyPsKgIMKgIDxicj7CoCDCoCBtb3Yg
+YWgsMTxicj7CoCDCoCBpbnQgMjFoPGJyPsKgIMKgIHN1YiBhbCwyMGggwqAgwqA8YnI+wqAgwqAg
+bW92IHVzZXJHdWVzcyxhbDxicj48YnI+wqAgwqA8YnI+wqAgwqAgbW92IGN4LDUgwqAgwqAgwqAg
+wqAgwqAgwqA8YnI+wqAgwqAgbGVhIHNpLCBsZXR0ZXJzIMKgIMKgIMKgPGJyPsKgIMKgIG1vdiBh
+bCwgdXNlckd1ZXNzIMKgIMKgPGJyPjxicj5jaGVja19sb29wMjo8YnI+wqAgwqAgY21wIGFsLCBb
+c2ldIMKgIMKgIMKgIMKgPGJyPsKgIMKgIGplIHZhbGlkX2d1ZXNzMiDCoCDCoCA8YnI+wqAgwqAg
+aW5jIHNpIMKgIMKgIMKgIMKgIMKgIMKgIMKgPGJyPsKgIMKgIGxvb3AgY2hlY2tfbG9vcDIgwqAg
+wqAgPGJyPjxicj7CoCDCoCA8YnI+wqAgwqAgam1wIGxvc2U8YnI+PGJyPnZhbGlkX2d1ZXNzMjo8
+YnI+wqAgwqAgbW92IGR4LG9mZnNldCBtc2dXaW48YnI+wqAgwqAgbW92IGFoLDk8YnI+wqAgwqAg
+aW50IDIxaDxicj7CoCDCoCBqbXAgZXhpdDxicj48YnI+bG9zZTo8YnI+wqAgwqA8YnI+wqAgwqAg
+bW92IGR4LG9mZnNldCBtc2dMb3NlPGJyPsKgIMKgIG1vdiBhaCw5PGJyPsKgIMKgIGludCAyMWg8
+YnI+wqAgwqAgam1wIGV4aXQ8YnI+PGJyPmV4aXQ6PGJyPsKgIMKgIG1vdiBheCw0Y2g8YnI+wqAg
+wqAgaW50IDIxaDxicj5lbmQgbWFpbjwvZGl2Pg0K
+--000000000000de6d7f062927f593--
